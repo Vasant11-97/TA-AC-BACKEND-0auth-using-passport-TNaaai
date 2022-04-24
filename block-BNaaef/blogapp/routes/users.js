@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var passport = require('passport');
 
 var User = require('../models/User');
 
@@ -58,6 +59,23 @@ router.post('/login', (req, res, next) => {
     });
   });
 });
+
+// Logging in with github
+
+router.get(
+  '/users/login/auth/github',
+  passport.authenticate('github', { scope: ['user:email'] })
+);
+
+router.get(
+  '/users/login/auth/github/callback',
+  passport.authenticate('github', {
+    failureRedirect: '/users/login',
+  }),
+  (req, res) => {
+    res.redirect('/blogs');
+  }
+);
 
 // Logout
 
