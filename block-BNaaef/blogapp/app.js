@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
+var passport = require('passport');
 
 require('dotenv').config();
 
@@ -44,6 +45,9 @@ app.use(
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Adding Flash
 
